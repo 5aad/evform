@@ -25,7 +25,7 @@ const Page = () => {
           Manage Users
         </Typography.Title>
 
-        <Button size="large" type="primary">
+        <Button size="large" type="primary" onClick={() => router.push("/admin/users/add-user")}>
           Add New User
         </Button>
       </Row>

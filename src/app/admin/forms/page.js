@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { Row, Button, Typography, Table, message } from "antd";
 import { useRouter } from "next/navigation";
@@ -7,13 +7,13 @@ const Page = () => {
   const router = useRouter();
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(1);
-  console.log(data)
-  const columns =data.map((key) => ({
+  console.log(data);
+  const columns = data.map((key) => ({
     title: key.question.question,
     dataIndex: "answer",
     key: key,
   }));
- 
+
   return (
     <div>
       <Row
@@ -25,7 +25,11 @@ const Page = () => {
           Manage Forms
         </Typography.Title>
 
-        <Button size="large" type="primary">
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => router.push("/admin/forms/add-form")}
+        >
           Add New Form
         </Button>
       </Row>
