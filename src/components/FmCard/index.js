@@ -8,6 +8,7 @@ import {
   Radio,
   Space,
   Select,
+  Flex,
 } from "antd";
 const FmCard = ({ data, form }) => {
   return data.question_type === "short" ? (
@@ -31,9 +32,11 @@ const FmCard = ({ data, form }) => {
         <Input size="large" placeholder="Short Answer" />
       </Form.Item>
       {data.required === false ? (
-        <Button onClick={() => form.resetFields([data.question])} type="text">
-          Delete Selection
-        </Button>
+        <Flex justify="flex-end">
+          <Button onClick={() => form.resetFields([data.question])} type="text">
+            Delete Selection
+          </Button>
+        </Flex>
       ) : null}
     </Card>
   ) : data.question_type === "long" ? (
@@ -57,9 +60,11 @@ const FmCard = ({ data, form }) => {
         <Input.TextArea size="large" placeholder="Long Answer" />
       </Form.Item>
       {data.required === false ? (
-        <Button onClick={() => form.resetFields([data.question])} type="text">
-          Delete Selection
-        </Button>
+        <Flex justify="flex-end">
+          <Button onClick={() => form.resetFields([data.question])} type="text">
+            Delete Selection
+          </Button>
+        </Flex>
       ) : null}
     </Card>
   ) : data.question_type === "check" ? (
@@ -91,9 +96,11 @@ const FmCard = ({ data, form }) => {
         </Checkbox.Group>
       </Form.Item>
       {data.required === false ? (
-        <Button onClick={() => form.resetFields([data.question])} type="text">
-          Delete Selection
-        </Button>
+        <Flex justify="flex-end">
+          <Button onClick={() => form.resetFields([data.question])} type="text">
+            Delete Selection
+          </Button>
+        </Flex>
       ) : null}
     </Card>
   ) : data.question_type === "radio" ? (
@@ -125,9 +132,11 @@ const FmCard = ({ data, form }) => {
         </Radio.Group>
       </Form.Item>
       {data.required === false ? (
-        <Button onClick={() => form.resetFields([data.question])} type="text">
-          Delete Selection
-        </Button>
+        <Flex justify="flex-end">
+          <Button onClick={() => form.resetFields([data.question])} type="text">
+            Delete Selection
+          </Button>
+        </Flex>
       ) : null}
     </Card>
   ) : data.question_type === "dropdown" ? (
@@ -159,9 +168,11 @@ const FmCard = ({ data, form }) => {
         />
       </Form.Item>
       {data.required === false ? (
-        <Button onClick={() => form.resetFields([data.question])} type="text">
-          Delete Selection
-        </Button>
+        <Flex justify="flex-end">
+          <Button onClick={() => form.resetFields([data.question])} type="text">
+            Delete Selection
+          </Button>
+        </Flex>
       ) : null}
     </Card>
   ) : null;
