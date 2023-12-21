@@ -72,17 +72,6 @@ const AdminLayout = (props) => {
                 null,
                 { marginBottom: "30px" }
               ),
-
-              // getItem(
-              //   "Support",
-              //   "/support",
-              //   <BsInfoCircleFill size={collapsed ? 16 : 24} />
-              // ),
-              // getItem(
-              //   "Settings",
-              //   "/settings",
-              //   <BsGearFill size={collapsed ? 16 : 24} />
-              // ),
             ]}
           />
 
@@ -97,6 +86,7 @@ const AdminLayout = (props) => {
             <Row
               justify="center"
               style={{ cursor: "pointer", marginBlock: 10 }}
+              onClick={() => router.push("/login")}
             >
               <BsBoxArrowLeft size={24} color="red" />
               <Typography.Title

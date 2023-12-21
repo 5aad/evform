@@ -3,17 +3,12 @@ import React, { useState } from "react";
 import { Row, Button, Typography, Table, message } from "antd";
 import { useRouter } from "next/navigation";
 import data from "@/data/forms";
-import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
+import { AiTwotoneEdit, AiTwotoneDelete, AiTwotoneCopy } from "react-icons/ai";
 const Page = () => {
   const router = useRouter();
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(1);
   const columns = [
-    // ...data.responses.map((key) => ({
-    //   title: key.question.question,
-    //   dataIndex: "answer",
-    //   key: 1,
-    // })),
     {
       title: "title",
       dataIndex: "title",
@@ -43,11 +38,41 @@ const Page = () => {
       ),
     },
     {
+      title: "Status",
+      dataIndex: "",
+      key: 1,
+      render: (e) => (
+        <div>
+          <Button
+            htmlType="button"
+            style={{
+              marginLeft: 5,
+              color: e.live === true ? "green" : "red",
+              backgroundColor: e.live === true ? "lightgreen" : "#ffcccb",
+            }}
+            type="dashed"
+            size="large"
+            // onClick={() => router.push("/admin/forms/responses")}
+          >
+            {e.live === true ? "Live" : "Not Live"}
+          </Button>
+        </div>
+      ),
+    },
+    {
       title: "Action",
       dataIndex: "",
       key: 2,
       render: () => (
         <div>
+          <Button
+            htmlType="button"
+            style={{ marginLeft: 5 }}
+            type="dashed"
+            icon={<AiTwotoneCopy style={{ paddingBottom: 4 }} size={28} />}
+            size="large"
+          />
+
           <Button
             htmlType="button"
             style={{ marginLeft: 5 }}

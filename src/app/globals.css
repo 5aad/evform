@@ -23,8 +23,6 @@ a {
   }
 } */
 
-
-
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -116,7 +114,13 @@ svg {
 /* .ant-table-cell {
   width: 200px !important;
 } */
-
+:where(.css-dev-only-do-not-override-10pttjx).ant-menu-light
+  .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-10pttjx).ant-menu-light
+  > .ant-menu
+  .ant-menu-item-selected {
+  background-color: #7a818291 !important;
+}
 .seachInput > .ant-input {
   background-color: #f0f2f5 !important;
   color: #212135 !important;
@@ -200,4 +204,3 @@ input[type="number"] {
   width: 100%;
   border-radius: 0px;
 }
-
