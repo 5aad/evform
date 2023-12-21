@@ -25,7 +25,7 @@
     {
       "question": {
         "id": 3,
-        "question": "abc long",
+        "question": "abc radio",
         "question_type": "short",
         "placeholder": "short",
         "error_msg": "def",

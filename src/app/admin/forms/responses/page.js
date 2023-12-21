@@ -4,11 +4,12 @@ import { Row, Button, Typography, Table, message, Flex } from "antd";
 import { useRouter } from "next/navigation";
 import data from "@/data/response";
 import { AiTwotoneLeftCircle } from "react-icons/ai";
+import { CSVLink } from "react-csv";
 const Page = () => {
   const router = useRouter();
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(1);
-  console.log(data);
+
   const columns = [
     ...data.responses.map((response) => ({
       title: response.question.question,
@@ -25,6 +26,31 @@ const Page = () => {
       }, {}),
     },
   ];
+
+  const transformDataForCSV = (responses) => {
+    if (!responses || responses.length === 0) {
+      return null; // Handle the case when there are no responses
+    }
+
+    // Extract unique question headers
+    const headers = [
+      ...data.responses.map((response) => ({
+        label: response.question.question,
+        key: response.question.question,
+      })),
+    ];
+    const rows = [
+      {
+        ...data.responses.reduce((acc, response) => {
+          acc[`${response.question.question}`] = response.answer;
+          return acc;
+        }, {}),
+      },
+    ];
+    console.log(rows);
+    return { headers, rows };
+  };
+  const transformedData = transformDataForCSV(data.responses);
   return (
     <div>
       <Row
@@ -47,10 +73,11 @@ const Page = () => {
             Responses
           </Typography.Title>
         </Flex>
-
-        <Button size="large" type="primary">
-          Export CSV
-        </Button>
+        <CSVLink data={transformedData.rows} headers={transformedData.headers}>
+          <Button size="large" type="primary">
+            Export CSV
+          </Button>
+        </CSVLink>
       </Row>
       <Row>
         <Table
