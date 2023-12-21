@@ -2,30 +2,46 @@
 import React, { useState } from "react";
 import { Row, Button, Typography, Table, message } from "antd";
 import { useRouter } from "next/navigation";
-import data from "@/data/response";
+import data from "@/data/forms";
 import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
 const Page = () => {
   const router = useRouter();
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(1);
-  console.log(data);
   const columns = [
     // ...data.responses.map((key) => ({
     //   title: key.question.question,
     //   dataIndex: "answer",
     //   key: 1,
     // })),
-    // {
-    //   title:"question",
-    //   dataIndex:"answer",
-    //   key:"answer"
-    // },
-    ...data.responses.map((response) => ({
-      title: response.question.question,
-      dataIndex: `response_${response.question.id}`,
-      key: `response_${response.question.id}`,
-      render: (text) => text || "-",
-    })),
+    {
+      title: "title",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Created At",
+      dataIndex: "created_at",
+      key: "created_at",
+    },
+    {
+      title: "Responses",
+      dataIndex: "",
+      key: 1,
+      render: () => (
+        <div>
+          <Button
+            htmlType="button"
+            style={{ marginLeft: 5 }}
+            type="dashed"
+            size="large"
+            onClick={() => router.push("/admin/forms/responses")}
+          >
+            View Responses
+          </Button>
+        </div>
+      ),
+    },
     {
       title: "Action",
       dataIndex: "",
@@ -57,19 +73,7 @@ const Page = () => {
       ),
     },
   ];
-  const dataSource = [
-    {
-      key: data.id,
-      id: data.id,
-      title: data.title,
-      created_at: data.created_at,
-      live: data.live,
-      ...data.responses.reduce((acc, response) => {
-        acc[`response_${response.question.id}`] = response.answer;
-        return acc;
-      }, {}),
-    },
-  ];
+
   return (
     <div>
       <Row
@@ -93,7 +97,7 @@ const Page = () => {
         <Table
           style={{ width: "100%" }}
           columns={columns}
-          dataSource={dataSource}
+          dataSource={data}
           size="middle"
           scroll={{ x: true }}
           pagination={{
