@@ -1,14 +1,57 @@
 "use client";
-import { Button, Card, Flex, Form, Typography, Col, Row, Input } from "antd";
-import React from "react";
+import apiRequest from "@/context/apiRequest";
+import { useMutation } from "@tanstack/react-query";
+import { Button, Card, Flex, Form, Typography, Col, Row, Input, Spin } from "antd";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Page = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const stored = localStorage.getItem("@auth_token");
+    if (stored) {
+      // setToken(stored);
+      router.push("/admin/users");
+    } else {
+      router.push("/login");
+      setLoading(false)
+    }
+  }, []);
+  const loginMutation = useMutation({
+    mutationFn: async (data) => {
+      const response = await apiRequest(
+        process.env.NEXT_PUBLIC_URL,
+        {
+          method: "post",
+          url: `login`,
+          data,
+        },
+        router
+      );
 
-  const onSubmit = (data) => {
-    console.log(data);
+      return response;
+    },
+    onSuccess: async (e) => {
+      if (e.status === 200) {
+        await localStorage.setItem("@admin", JSON.stringify(e.data.user));
+        await localStorage.setItem("@auth_token", e.data.token);
+        router.push("/admin/users");
+      } else {
+        message.error(e.message);
+      }
+    },
+  });
+
+  const handleSubmit = (e) => {
+    loginMutation.mutate(e);
   };
-  return (
+  return loginMutation.isPending || loading? (
+    <div className="loadingContainer">
+      <Spin size="large" />
+    </div>
+  ) : (
     <Flex
       justify="center"
       align="center"
@@ -21,7 +64,7 @@ const Page = () => {
             form={form}
             name="control-ref"
             layout="vertical"
-            onFinish={onSubmit}
+            onFinish={handleSubmit}
             autoComplete="off"
           >
             <Row justify="space-between">

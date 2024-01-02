@@ -2,17 +2,21 @@
 import { Layout, Menu, Typography, Row, message, Spin } from "antd";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import {
-  BsBoxArrowLeft,
-  BsFillPeopleFill,
-  BsFillPersonLinesFill,
-  BsTruckFlatbed,
-} from "react-icons/bs";
+import { BsBoxArrowLeft, BsFillPeopleFill } from "react-icons/bs";
+import { AiFillFileText } from "react-icons/ai";
 const AdminLayout = (props) => {
   const router = useRouter();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
-
+  const [token, setToken] = useState(null);
+  useEffect(() => {
+    const stored = localStorage.getItem("@auth_token");
+    if (stored) {
+      setToken(stored);
+    } else {
+      router.push("/");
+    }
+  }, []);
   const getItem = (label, key, icon, children, style, type) => {
     return {
       label,
@@ -23,7 +27,13 @@ const AdminLayout = (props) => {
       type,
     };
   };
-
+  if (!token) {
+    return (
+      <div className="loadingContainer">
+        <Spin size="large" />
+      </div>
+    );
+  }
   return (
     <Layout style={{ height: "100vh" }}>
       <Layout.Sider
@@ -68,7 +78,7 @@ const AdminLayout = (props) => {
               getItem(
                 "Forms",
                 "/admin/forms",
-                <BsFillPeopleFill size={collapsed ? 16 : 24} />,
+                <AiFillFileText size={collapsed ? 16 : 24} />,
                 null,
                 { marginBottom: "30px" }
               ),

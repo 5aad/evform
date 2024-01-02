@@ -1,4 +1,6 @@
 "use client";
+import apiRequest from "@/context/apiRequest";
+import { useMutation } from "@tanstack/react-query";
 import {
   Button,
   Flex,
@@ -10,15 +12,39 @@ import {
   Radio,
   Divider,
   Select,
+  message,
 } from "antd";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 const Page = () => {
   const [form] = Form.useForm();
+  const router = useRouter()
+  const addUserMutation = useMutation({
+    mutationFn: async (data) => {
+      const response = await apiRequest(
+        process.env.NEXT_PUBLIC_URL,
+        {
+          method: "post",
+          url: `user`,
+          data,
+        },
+      );
 
-  const onSubmit = (data) => {
-    console.log(data);
+      return response;
+    },
+    onSuccess: async (e) => {
+      if (e.status === 200) {
+        message.success(e.message)
+        router.back();
+      } else {
+        message.error(e.message);
+      }
+    },
+  });
+
+  const handleSubmit = (e) => {
+    addUserMutation.mutate(e)
   };
-
   return (
     <div>
       <Flex justify="flex-start" align="middle" style={{ marginBlock: "3rem" }}>
@@ -32,7 +58,7 @@ const Page = () => {
             form={form}
             name="control-ref"
             layout="vertical"
-            onFinish={onSubmit}
+            onFinish={handleSubmit}
             autoComplete="off"
           >
             <Row justify="space-between">
@@ -74,7 +100,7 @@ const Page = () => {
               </Col>
               <Col xs={23} sm={23} md={11} lg={11} xl={11} xxl={11}>
                 <Form.Item
-                  name="role"
+                  name="role_id"
                   rules={[
                     {
                       required: true,
@@ -100,9 +126,9 @@ const Page = () => {
                     options={[
                       {
                         label: "Admin",
-                        value: 1,
+                        value: 2,
                       },
-                      { label: "Collaborator", value: 2 },
+                      { label: "Member", value: 3 },
                     ]}
                   />
                 </Form.Item>
@@ -113,6 +139,7 @@ const Page = () => {
               htmlType="submit"
               type="primary"
               size="large"
+              loading={addUserMutation.isPending}
               // className={styles.btn_submit}
             >
               Create New User

@@ -3,15 +3,15 @@ import { message, Modal } from "antd";
 const apiRequest = async function (urlType, options, router) {
   const authToken = await localStorage.getItem("@auth_token");
   const onSuccess = (response) => {
-    return response;
+    return response.data;
   };
   const onError = async (error) => {
+    console.log(error)
     if (
       error?.response?.status === 400 ||
       error?.response?.status === 404 ||
       error?.response?.status === 403
     ) {
-      console.log(error);
       Modal.error({
         title: "Error",
         content: error?.response?.data?.message
@@ -46,7 +46,7 @@ const apiRequest = async function (urlType, options, router) {
   return axios({
     baseURL: `${urlType}`,
     ...options,
-    headers: { Authorization: `Bearer ${authToken}` },
+    headers: { Authorization: `${authToken}` },
   })
     .then(onSuccess)
     .catch(onError);
