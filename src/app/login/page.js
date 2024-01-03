@@ -1,7 +1,17 @@
 "use client";
 import apiRequest from "@/context/apiRequest";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Card, Flex, Form, Typography, Col, Row, Input, Spin } from "antd";
+import {
+  Button,
+  Card,
+  Flex,
+  Form,
+  Typography,
+  Col,
+  Row,
+  Input,
+  Spin,
+} from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -16,12 +26,12 @@ const Page = () => {
       router.push("/admin/users");
     } else {
       router.push("/login");
-      setLoading(false)
+      setLoading(false);
     }
   }, []);
   const loginMutation = useMutation({
-    mutationFn: async (data) => {
-      const response = await apiRequest(
+    mutationFn: (data) => {
+      const response = apiRequest(
         process.env.NEXT_PUBLIC_URL,
         {
           method: "post",
@@ -44,10 +54,10 @@ const Page = () => {
     },
   });
 
-  const handleSubmit = (e) => {
-    loginMutation.mutate(e);
+  const handleSubmit = async (e) => {
+    await loginMutation.mutate(e);
   };
-  return loginMutation.isPending || loading? (
+  return loginMutation.isPending || loading ? (
     <div className="loadingContainer">
       <Spin size="large" />
     </div>

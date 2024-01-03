@@ -1,4 +1,6 @@
 "use client";
+import apiRequest from "@/context/apiRequest";
+import { useMutation } from "@tanstack/react-query";
 import {
   Button,
   Flex,
@@ -10,26 +12,37 @@ import {
   Radio,
   Divider,
   Select,
+  message,
 } from "antd";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { FcAddRow, FcDeleteRow } from "react-icons/fc";
 const Page = () => {
   const [form] = Form.useForm();
+  const router = useRouter()
+  const [userId, setUserId] = useState();
   const [inputList, setInputList] = useState([
     {
-      question_type: 1,
+      question_type_id: 1,
       question: "",
       placeholder: "",
       options: null,
       error_msg: "",
-      required: 1,
+      required: true,
     },
   ]);
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const storage = await localStorage.getItem("@admin");
+      setUserId(JSON.parse(storage).id);
+    };
+    fetchUserId();
+  }, []);
   const handleAddClick = () => {
     setInputList([
       ...inputList,
       {
-        question_type: 1,
+        question_type_id: 1,
         question: "",
         placeholder: "",
         error_msg: "",
@@ -61,14 +74,32 @@ const Page = () => {
       setInputList(list);
     }
   };
+  const addFormMutation = useMutation({
+    mutationFn: async (data) => {
+      const response = await apiRequest(process.env.NEXT_PUBLIC_URL, {
+        method: "post",
+        url: `form`,
+        data,
+      });
 
-  const onSubmit = (e) => {
+      return response;
+    },
+    onSuccess: async (e) => {
+      if (e.status === 200) {
+        message.success(e.message);
+        router.back();
+      } else {
+        message.error(e.message);
+      }
+    },
+  });
+  const onSubmit = async (e) => {
     const data = {
       title: e.title,
+      user_id:userId,
       questions: inputList,
     };
-
-    console.log(data);
+    await addFormMutation.mutate(data)
   };
 
   return (
@@ -139,11 +170,11 @@ const Page = () => {
                           { label: "Dropdown", value: 5 },
                         ]}
                         size="large"
-                        value={x.question_type}
+                        value={x.question_type_id}
                         optionType="button"
                         buttonStyle="solid"
                         onChange={(e) =>
-                          handleInputChange(e.target.value, i, "question_type")
+                          handleInputChange(e.target.value, i, "question_type_id")
                         }
                       />
                     </Form.Item>
@@ -173,7 +204,7 @@ const Page = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={23} sm={23} md={11} lg={11} xl={11} xxl={11}>
-                    {x.question_type === 1 || x.question_type === 2 ? (
+                    {x.question_type_id === 1 || x.question_type_id === 2 ? (
                       <Form.Item
                         // name="placeholder"
                         rules={[
@@ -272,9 +303,9 @@ const Page = () => {
                           options={[
                             {
                               label: "True",
-                              value: 1,
+                              value: true,
                             },
-                            { label: "False", value: 2 },
+                            { label: "False", value: false },
                           ]}
                           value={x.required}
                           optionType="button"
@@ -319,6 +350,7 @@ const Page = () => {
               htmlType="submit"
               type="primary"
               size="large"
+              loading={addFormMutation.isPending}
               // className={styles.btn_submit}
             >
               Submit

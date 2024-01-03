@@ -89,6 +89,11 @@ const AdminLayout = (props) => {
             <Row
               justify="center"
               style={{ cursor: "pointer", marginBlock: 10 }}
+              onClick={async () => {
+                await localStorage.removeItem("@admin");
+                await localStorage.removeItem("@auth_token");
+                router.push("/");
+              }}
             >
               <BsBoxArrowLeft size={16} color="red" />
             </Row>
@@ -96,7 +101,11 @@ const AdminLayout = (props) => {
             <Row
               justify="center"
               style={{ cursor: "pointer", marginBlock: 10 }}
-              onClick={() => router.push("/login")}
+              onClick={async () => {
+                await localStorage.removeItem("@admin");
+                await localStorage.removeItem("@auth_token");
+                router.push("/");
+              }}
             >
               <BsBoxArrowLeft size={24} color="red" />
               <Typography.Title
