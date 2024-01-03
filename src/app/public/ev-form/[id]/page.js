@@ -52,9 +52,9 @@ export default function Home() {
 
   const onSubmit = (data) => {
     const formDataJson = {
-      form_id: id,
+      form_id: Number(id),
       responses: Object.entries(data).map((item) => {
-        return { question: item, answer: item[1] };
+        return { question_id: Number(item[0]), answer: item[1] };
       }),
     };
     console.log(formDataJson);
@@ -64,10 +64,10 @@ export default function Home() {
       <Flex vertical="vertical" gap="large">
         <Card>
           <Typography.Title level={3} style={{ margin: 0 }}>
-            {publicFormData?.data?.data.title}
+            {publicFormData?.data?.data?.title}
           </Typography.Title>
         </Card>
-        {data.map((item, index) => (
+        {publicFormData.data?.data?.questions.map((item, index) => (
           <Form
             key={index}
             form={form}

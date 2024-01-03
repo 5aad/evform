@@ -11,7 +11,7 @@ import {
   Flex,
 } from "antd";
 const FmCard = ({ data, form }) => {
-  return data.question_type === "short" ? (
+  return data.question_type.label === "Short" ? (
     <Card sx={{ minWidth: 275 }}>
       <Typography.Title level={3} style={{ margin: 0 }}>
         {data?.question}
@@ -21,7 +21,7 @@ const FmCard = ({ data, form }) => {
       </Typography.Title>
       <br />
       <Form.Item
-        name={data.question}
+        name={data.id}
         rules={[
           {
             required: data.required,
@@ -39,7 +39,7 @@ const FmCard = ({ data, form }) => {
         </Flex>
       ) : null}
     </Card>
-  ) : data.question_type === "long" ? (
+  ) : data.question_type.label === "Long" ? (
     <Card sx={{ minWidth: 275 }}>
       <Typography.Title level={3} style={{ margin: 0 }}>
         {data?.question}
@@ -49,7 +49,7 @@ const FmCard = ({ data, form }) => {
       </Typography.Title>
       <br />
       <Form.Item
-        name={data.question}
+        name={data.id}
         rules={[
           {
             required: data.required,
@@ -67,7 +67,7 @@ const FmCard = ({ data, form }) => {
         </Flex>
       ) : null}
     </Card>
-  ) : data.question_type === "check" ? (
+  ) : data.question_type.label === "Check" ? (
     <Card sx={{ minWidth: 275 }}>
       <Typography.Title level={3} style={{ margin: 0 }}>
         {data?.question}
@@ -77,7 +77,7 @@ const FmCard = ({ data, form }) => {
       </Typography.Title>
       <br />
       <Form.Item
-        name={data.question}
+        name={data.id}
         rules={[
           {
             required: data.required,
@@ -88,7 +88,7 @@ const FmCard = ({ data, form }) => {
         <Checkbox.Group defaultValue={["Apple"]}>
           <Space direction="vertical">
             {data.options.map((item, index) => (
-              <Checkbox key={index} value={item.value}>
+              <Checkbox key={index} value={item.id}>
                 {item.label}
               </Checkbox>
             ))}
@@ -103,7 +103,7 @@ const FmCard = ({ data, form }) => {
         </Flex>
       ) : null}
     </Card>
-  ) : data.question_type === "radio" ? (
+  ) : data.question_type.label === "Radio" ? (
     <Card sx={{ minWidth: 275 }}>
       <Typography.Title level={3} style={{ margin: 0 }}>
         {data?.question}
@@ -113,7 +113,7 @@ const FmCard = ({ data, form }) => {
       </Typography.Title>
       <br />
       <Form.Item
-        name={data.question}
+        name={data.id}
         rules={[
           {
             required: data.required,
@@ -124,7 +124,7 @@ const FmCard = ({ data, form }) => {
         <Radio.Group>
           <Space direction="vertical">
             {data.options.map((item, index) => (
-              <Radio key={index} value={item.value}>
+              <Radio key={index} value={item.id}>
                 {item.label}
               </Radio>
             ))}
@@ -139,7 +139,7 @@ const FmCard = ({ data, form }) => {
         </Flex>
       ) : null}
     </Card>
-  ) : data.question_type === "dropdown" ? (
+  ) : data.question_type.label === "Dropdown" ? (
     <Card sx={{ minWidth: 275 }}>
       <Typography.Title level={3} style={{ margin: 0 }}>
         {data?.question}
@@ -149,7 +149,7 @@ const FmCard = ({ data, form }) => {
       </Typography.Title>
       <br />
       <Form.Item
-        name={data.question}
+        name={data.id}
         rules={[
           {
             required: data.required,

@@ -83,14 +83,14 @@ const Page = () => {
       title: "Responses",
       dataIndex: "",
       key: 1,
-      render: () => (
+      render: (e) => (
         <div>
           <Button
             htmlType="button"
             style={{ marginLeft: 5 }}
             type="dashed"
             size="large"
-            onClick={() => router.push("/admin/forms/responses")}
+            onClick={() => router.push(`/admin/forms/responses/${e.id}`)}
           >
             View Responses
           </Button>

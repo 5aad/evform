@@ -1,27 +1,44 @@
 "use client";
 import React, { useState } from "react";
 import { Row, Button, Typography, Table, message, Flex } from "antd";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import data from "@/data/response";
 import { AiTwotoneLeftCircle } from "react-icons/ai";
 import { CSVLink } from "react-csv";
+import { useQuery } from "@tanstack/react-query";
+import apiRequest from "@/context/apiRequest";
 const Page = () => {
   const router = useRouter();
+  const params = useParams()
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(1);
+  const responsesFormData = useQuery({
+    queryKey: ["responseForm", params.id],
+    queryFn: async () => {
+      const response = await apiRequest(
+        process.env.NEXT_PUBLIC_URL,
+        {
+          method: "get",
+          url: `response?id=${params.id}`,
+        }
+      );
 
+      return response;
+    },
+    enabled: params.id? true:false,
+  });
   const columns = [
-    ...data.responses.map((response) => ({
+    ...responsesFormData?.data?.data?.responses.map((response) => ({
       title: response.question.question,
-      dataIndex: `response_${response.question.id}`,
-      key: `response_${response.question.id}`,
+      dataIndex: `response_${response.question.question}`,
+      key: `response_${response.question.question}`,
       render: (text) => text || "-",
     })),
   ];
   const dataSource = [
     {
-      ...data.responses.reduce((acc, response) => {
-        acc[`response_${response.question.id}`] = response.answer;
+      ...responsesFormData?.data?.data?.responses.reduce((acc, response) => {
+        acc[`response_${response.question.question}`] = response.answer;
         return acc;
       }, {}),
     },
@@ -50,7 +67,7 @@ const Page = () => {
     console.log(rows);
     return { headers, rows };
   };
-  const transformedData = transformDataForCSV(data.responses);
+  const transformedData = transformDataForCSV(responsesFormData?.data?.data?.responses);
   return (
     <div>
       <Row
@@ -86,6 +103,7 @@ const Page = () => {
           dataSource={dataSource}
           size="middle"
           scroll={{ x: true }}
+          loading={responsesFormData.isLoading}
           pagination={{
             current: offset,
             pageSize: pageSize,
