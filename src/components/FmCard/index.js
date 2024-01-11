@@ -33,7 +33,7 @@ const FmCard = ({ data, form }) => {
       </Form.Item>
       {data.required === false ? (
         <Flex justify="flex-end">
-          <Button onClick={() => form.resetFields([data.question])} type="text">
+          <Button onClick={() => form.resetFields([data.id])} type="text">
             Delete Selection
           </Button>
         </Flex>
@@ -61,7 +61,7 @@ const FmCard = ({ data, form }) => {
       </Form.Item>
       {data.required === false ? (
         <Flex justify="flex-end">
-          <Button onClick={() => form.resetFields([data.question])} type="text">
+          <Button onClick={() => form.resetFields([data.id])} type="text">
             Delete Selection
           </Button>
         </Flex>
@@ -97,7 +97,7 @@ const FmCard = ({ data, form }) => {
       </Form.Item>
       {data.required === false ? (
         <Flex justify="flex-end">
-          <Button onClick={() => form.resetFields([data.question])} type="text">
+          <Button onClick={() => form.resetFields([data.id])} type="text">
             Delete Selection
           </Button>
         </Flex>
@@ -133,7 +133,7 @@ const FmCard = ({ data, form }) => {
       </Form.Item>
       {data.required === false ? (
         <Flex justify="flex-end">
-          <Button onClick={() => form.resetFields([data.question])} type="text">
+          <Button onClick={() => form.resetFields([data.id])} type="text">
             Delete Selection
           </Button>
         </Flex>
@@ -153,7 +153,7 @@ const FmCard = ({ data, form }) => {
         rules={[
           {
             required: data.required,
-            message: "Please input your answer!",
+            message: data.error? data.error:"Please input your answer!",
           },
         ]}
       >
@@ -164,12 +164,12 @@ const FmCard = ({ data, form }) => {
           filterOption={(input, option) =>
             (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
           }
-          options={data.options}
+          options={data.options.map(({ id, label }) => ({ value: id, label }))}
         />
       </Form.Item>
       {data.required === false ? (
         <Flex justify="flex-end">
-          <Button onClick={() => form.resetFields([data.question])} type="text">
+          <Button onClick={() => form.resetFields([data.id])} type="text">
             Delete Selection
           </Button>
         </Flex>

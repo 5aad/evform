@@ -71,22 +71,28 @@ export default function Home() {
     const formDataJson = {
       form_id: Number(id),
       responses: Object.entries(data).map((item) => {
-        return { question_id: Number(item[0]), answer: item[1] };
+        return Array.isArray(item[1]) || typeof item[1] === "number"
+          ? { question_id: Number(item[0]), response_options: item[1]}
+          : { question_id: Number(item[0]), answer: item[1] };
       }),
     };
+    // console.log(formDataJson);
     publicFormMutation.mutate(formDataJson);
   };
 
   return (
     <div className={styles.container}>
-      {publicFormData?.data?.data?.live === false ? (
+      {publicFormData?.data?.data?.live === false ||
+      publicFormData?.data?.data === null ? (
         <Flex justify="center" align="center">
           <Card style={{ width: "600px" }}>
             <Typography.Title level={2}>
-              {publicFormData?.data?.data?.title}
+              {publicFormData?.data?.data?.title
+                ? publicFormData?.data?.data?.title
+                : "Form no longer exist"}
             </Typography.Title>
             <Typography.Text>
-              The form {publicFormData?.data?.data?.title} form is no longer
+              The {publicFormData?.data?.data?.title} form is no longer
               accepting responses.
               <br />
               Try contacting the owner of the form if you think this is a
