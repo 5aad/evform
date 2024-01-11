@@ -4,7 +4,7 @@
   box-sizing: border-box;
   margin-right: auto;
   display: block;
-  margin-top: 2rem;
+  padding-top: 2rem;
 }
 
 @media (min-width: 900px) {
