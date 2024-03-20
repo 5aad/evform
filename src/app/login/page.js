@@ -80,7 +80,7 @@ const Page = () => {
             <Row justify="space-between">
               <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
                 <Form.Item
-                  name="email"
+                  name="username"
                   rules={[
                     {
                       required: true,
@@ -89,11 +89,11 @@ const Page = () => {
                   ]}
                   label={
                     <Typography.Text strong style={{ fontSize: 16 }}>
-                      Email
+                      User Name
                     </Typography.Text>
                   }
                 >
-                  <Input size="large" placeholder="email@example.com" />
+                  <Input size="large" placeholder="User Name" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
