@@ -50,7 +50,7 @@ const AdminLayout = (props) => {
       >
         <Row justify="center" style={{ marginBlock: 40 }}>
           <Typography.Title style={{ fontSize: collapsed ? 12 : 34 }}>
-            EVFORM
+            WORKIFY
           </Typography.Title>
         </Row>
         <div
@@ -75,13 +75,13 @@ const AdminLayout = (props) => {
                 null,
                 { marginBottom: "30px" }
               ),
-              getItem(
-                "Forms",
-                "/admin/forms",
-                <AiFillFileText size={collapsed ? 16 : 24} />,
-                null,
-                { marginBottom: "30px" }
-              ),
+              // getItem(
+              //   "Forms",
+              //   "/admin/forms",
+              //   <AiFillFileText size={collapsed ? 16 : 24} />,
+              //   null,
+              //   { marginBottom: "30px" }
+              // ),
             ]}
           />
 

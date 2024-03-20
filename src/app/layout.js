@@ -8,8 +8,8 @@ import QueryProvider from "@/context/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "EVFORM",
-  description: "Evalutaion Forms",
+  title: "WORKIFY",
+  description: "Admin Panel of Workify App",
 };
 
 export default function RootLayout({ children }) {

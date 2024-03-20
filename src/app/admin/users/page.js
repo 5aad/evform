@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { AiTwotoneEdit, AiTwotoneDelete } from "react-icons/ai";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import apiRequest from "@/context/apiRequest";
+import moment from 'moment';
+
 const Page = () => {
   const router = useRouter();
   const [pageSize, setPageSize] = useState(10);
@@ -48,26 +50,53 @@ const Page = () => {
   const columns = [
     {
       title: "User Name",
-      dataIndex: "username",
+      dataIndex: "user_name",
       key: 1,
     },
     {
-      title: "Role",
-      dataIndex: "role",
+      title: "Email",
+      dataIndex: "email",
       key: 2,
-      render: (e) => e.role,
+    },
+    {
+      title: "First Name",
+      dataIndex: "first_name",
+      key: 3,
+    },
+    {
+      title: "Last Name",
+      dataIndex: "last_name",
+      key: 4,
+    },
+    {
+      title: "Gender",
+      dataIndex: "gender",
+      key: 5,
+    },
+    {
+      title: "Role",
+      dataIndex: "",
+      key: 6,
+      render: (e) => e.role?.name,
     },
     {
       title: "Created At",
       dataIndex: "created_at",
-      key: 2,
+      key: 7,
+      render: (created_at) => moment(created_at).format('YYYY-MM-DD, h:mma')
+    },
+    {
+      title: "Updated At",
+      dataIndex: "updated_at",
+      key: 8,
+      render: (updated_at) => moment(updated_at).format('YYYY-MM-DD, h:mma')
     },
     {
       title: "Action",
       dataIndex: "",
-      key: 2,
+      key: 9,
       render: (e) =>
-        e.role.role === "Super Admin" ? null : (
+        e.role.name === "admin" ? null : (
           <div>
             {/* <Button
               htmlType="button"
@@ -124,13 +153,13 @@ const Page = () => {
           size="middle"
           scroll={{ x: true }}
           loading={userData.isLoading}
-          pagination={{
-            current: offset,
-            pageSize: pageSize,
-            position: ["bottomRight"],
-            total: 1,
-            showSizeChanger: false,
-          }}
+          // pagination={{
+          //   current: offset,
+          //   pageSize: pageSize,
+          //   position: ["bottomRight"],
+          //   total: 1,
+          //   showSizeChanger: false,
+          // }}
           onChange={(e) => {
             setPageSize(e.pageSize), setOffset(e.current);
           }}

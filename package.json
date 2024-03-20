@@ -1,5 +1,5 @@
 {
-  "name": "evform",
+  "name": "workify_admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "antd": "^5.12.2",
     "axios": "^1.6.2",
     "crypto": "^1.0.1",
+    "moment": "^2.30.1",
     "next": "14.0.4",
     "react": "^18",
     "react-csv": "^2.2.2",
